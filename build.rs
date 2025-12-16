@@ -34,7 +34,7 @@ fn main() {
     let marker = lib_dir.join(".downloaded");
     if marker.exists() {
         println!("cargo:rustc-link-search=native={}", lib_dir.display());
-        println!("cargo:rustc-link-lib=static=mdbx_rs_core");
+        println!("cargo:rustc-link-lib=static=mdbx_rs");
         return;
     }
     
@@ -62,7 +62,7 @@ fn main() {
     File::create(&marker).expect("Failed to create marker");
     
     println!("cargo:rustc-link-search=native={}", lib_dir.display());
-    println!("cargo:rustc-link-lib=static=mdbx_rs_core");
+    println!("cargo:rustc-link-lib=static=mdbx_rs");
     
     // Rerun if version changes
     println!("cargo:rerun-if-env-changed=CARGO_PKG_VERSION");

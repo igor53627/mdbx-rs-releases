@@ -146,7 +146,7 @@ pub const MDBX_NOOVERWRITE: c_uint = 0x10;
 pub const MDBX_NODUPDATA: c_uint = 0x20;
 pub const MDBX_APPEND: c_uint = 0x20000;
 
-#[link(name = "mdbx_rs_core", kind = "static")]
+#[link(name = "mdbx_rs", kind = "static")]
 extern "C" {
     // Environment functions
     pub fn mdbx_env_create(env: *mut *mut MDBX_env) -> c_int;
