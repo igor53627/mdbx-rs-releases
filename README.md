@@ -8,19 +8,15 @@ See [Releases](https://github.com/igor53627/mdbx-rs-releases/releases) for pre-b
 
 ### Available Builds
 
-| Platform | PGO Build | Standard Build |
-|----------|-----------|----------------|
-| Linux x86_64 | `mdbx-rs-linux-x86_64-pgo.tar.gz` | `mdbx-rs-linux-x86_64-standard.tar.gz` |
-| Linux aarch64 | `mdbx-rs-linux-aarch64-pgo.tar.gz` | - |
-| macOS Intel | `mdbx-rs-macos-x86_64-pgo.tar.gz` | - |
-| macOS Apple Silicon | `mdbx-rs-macos-aarch64-pgo.tar.gz` | `mdbx-rs-macos-aarch64-standard.tar.gz` |
-
-**Recommended:** Use PGO (Profile-Guided Optimization) builds for production - they are 10-15% faster.
+| Platform | File |
+|----------|------|
+| Linux x86_64 | `mdbx-rs-linux-x86_64.tar.gz` |
+| macOS Apple Silicon | `mdbx-rs-macos-aarch64.tar.gz` |
 
 ## Performance vs C libmdbx
 
-| Operation | Rust mdbx-rs + PGO | C libmdbx |
-|-----------|-------------------|-----------|
+| Operation | Rust mdbx-rs | C libmdbx |
+|-----------|-------------|-----------|
 | **PUT** | **143ms** | 167ms |
 | **GET** | **74ms** | 88ms |
 | **CURSOR** | **12ms** | 16.5ms |
@@ -29,14 +25,7 @@ See [Releases](https://github.com/igor53627/mdbx-rs-releases/releases) for pre-b
 
 - Binary compatible with C libmdbx databases
 - No migration required for existing databases
-- Supported platforms: Linux (x86_64, aarch64), macOS (Intel, Apple Silicon)
-
-## Usage
-
-```toml
-[dependencies]
-mdbx-rs = { git = "https://github.com/igor53627/mdbx-rs" }
-```
+- Supported platforms: Linux x86_64, macOS Apple Silicon
 
 ## License
 
