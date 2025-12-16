@@ -11,13 +11,13 @@
 //! ## Example
 //!
 //! ```rust,ignore
-//! use mdbx_rs::ffi;
+//! use mdbx_rs::*;
 //!
 //! unsafe {
 //!     let mut env = std::ptr::null_mut();
-//!     ffi::mdbx_env_create(&mut env);
+//!     mdbx_env_create(&mut env);
 //!     // ... use the database
-//!     ffi::mdbx_env_close(env);
+//!     mdbx_env_close(env);
 //! }
 //! ```
 //!
@@ -30,6 +30,10 @@
 #![allow(non_snake_case)]
 
 use std::os::raw::{c_char, c_int, c_uint, c_void};
+
+// Re-export all constants
+pub mod constants;
+pub use constants::*;
 
 /// Database handle type
 pub type MDBX_dbi = u32;
@@ -69,8 +73,8 @@ pub struct MDBX_cursor {
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct MDBX_val {
-    pub iov_base: *mut c_void,
     pub iov_len: usize,
+    pub iov_base: *mut c_void,
 }
 
 impl Default for MDBX_val {
@@ -94,62 +98,6 @@ pub struct MDBX_stat {
     pub ms_entries: u64,
     pub ms_mod_txnid: u64,
 }
-
-/// Cursor operations
-#[repr(C)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub enum MDBX_cursor_op {
-    MDBX_FIRST = 0,
-    MDBX_FIRST_DUP = 1,
-    MDBX_GET_BOTH = 2,
-    MDBX_GET_BOTH_RANGE = 3,
-    MDBX_GET_CURRENT = 4,
-    MDBX_GET_MULTIPLE = 5,
-    MDBX_LAST = 6,
-    MDBX_LAST_DUP = 7,
-    MDBX_NEXT = 8,
-    MDBX_NEXT_DUP = 9,
-    MDBX_NEXT_MULTIPLE = 10,
-    MDBX_NEXT_NODUP = 11,
-    MDBX_PREV = 12,
-    MDBX_PREV_DUP = 13,
-    MDBX_PREV_NODUP = 14,
-    MDBX_SET = 15,
-    MDBX_SET_KEY = 16,
-    MDBX_SET_RANGE = 17,
-    MDBX_PREV_MULTIPLE = 18,
-    MDBX_SET_LOWERBOUND = 19,
-    MDBX_SET_UPPERBOUND = 20,
-}
-
-// Error codes
-pub const MDBX_SUCCESS: c_int = 0;
-pub const MDBX_EINVAL: c_int = -22;
-pub const MDBX_EACCESS: c_int = -13;
-pub const MDBX_ENOMEM: c_int = -12;
-pub const MDBX_NOTFOUND: c_int = -30798;
-pub const MDBX_KEYEXIST: c_int = -30799;
-
-// Environment flags
-pub const MDBX_NOSUBDIR: c_uint = 0x4000;
-pub const MDBX_RDONLY: c_uint = 0x20000;
-pub const MDBX_WRITEMAP: c_uint = 0x80000;
-pub const MDBX_NOTLS: c_uint = 0x200000;
-pub const MDBX_NORDAHEAD: c_uint = 0x800000;
-pub const MDBX_NOMEMINIT: c_uint = 0x1000000;
-
-// Transaction flags
-pub const MDBX_TXN_READONLY: c_uint = 0x01;
-pub const MDBX_TXN_RDONLY: c_uint = MDBX_TXN_READONLY;
-pub const MDBX_TXN_TRY: c_uint = 0x02;
-
-// Put flags
-pub const MDBX_NOOVERWRITE: c_uint = 0x10;
-pub const MDBX_NODUPDATA: c_uint = 0x20;
-pub const MDBX_CURRENT: c_uint = 0x40;
-pub const MDBX_APPEND: c_uint = 0x80;
-pub const MDBX_APPENDDUP: c_uint = 0x100;
-pub const MDBX_MULTIPLE: c_uint = 0x200;
 
 #[link(name = "mdbx_rs", kind = "static")]
 extern "C" {
