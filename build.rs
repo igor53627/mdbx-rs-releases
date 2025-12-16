@@ -43,6 +43,7 @@ fn main() {
     if marker.exists() {
         println!("cargo:rustc-link-search=native={}", lib_dir.display());
         println!("cargo:rustc-link-lib=static=mdbx_rs");
+        println!("cargo:rerun-if-env-changed=MDBX_RS_LIB_DIR");
         return;
     }
     

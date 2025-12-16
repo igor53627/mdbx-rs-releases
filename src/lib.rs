@@ -1,4 +1,4 @@
-//! mdbx-rs - Pure Rust implementation of libmdbx
+//! mdbx-rs - FFI bindings to a Rust implementation of libmdbx
 //!
 //! An extremely fast embedded key-value database.
 //!
