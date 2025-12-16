@@ -1,4 +1,4 @@
-//! mdbx-rs - Pure Rust implementation of libmdbx
+//! mdbx-rs - FFI bindings to a Rust implementation of libmdbx
 //!
 //! An extremely fast embedded key-value database.
 //!
@@ -65,19 +65,19 @@ pub struct MDBX_cursor {
     _private: [u8; 0],
 }
 
-/// Key-value data structure
+/// Key-value data structure (matches C struct iovec layout)
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct MDBX_val {
-    pub iov_len: usize,
     pub iov_base: *mut c_void,
+    pub iov_len: usize,
 }
 
 impl Default for MDBX_val {
     fn default() -> Self {
         Self {
-            iov_len: 0,
             iov_base: std::ptr::null_mut(),
+            iov_len: 0,
         }
     }
 }
@@ -139,12 +139,17 @@ pub const MDBX_NORDAHEAD: c_uint = 0x800000;
 pub const MDBX_NOMEMINIT: c_uint = 0x1000000;
 
 // Transaction flags
-pub const MDBX_TXN_RDONLY: c_uint = 0x20000;
+pub const MDBX_TXN_READONLY: c_uint = 0x01;
+pub const MDBX_TXN_RDONLY: c_uint = MDBX_TXN_READONLY;
+pub const MDBX_TXN_TRY: c_uint = 0x02;
 
 // Put flags
 pub const MDBX_NOOVERWRITE: c_uint = 0x10;
 pub const MDBX_NODUPDATA: c_uint = 0x20;
-pub const MDBX_APPEND: c_uint = 0x20000;
+pub const MDBX_CURRENT: c_uint = 0x40;
+pub const MDBX_APPEND: c_uint = 0x80;
+pub const MDBX_APPENDDUP: c_uint = 0x100;
+pub const MDBX_MULTIPLE: c_uint = 0x200;
 
 #[link(name = "mdbx_rs", kind = "static")]
 extern "C" {
@@ -269,8 +274,8 @@ extern "C" {
 #[inline]
 pub fn bytes_to_val(bytes: &[u8]) -> MDBX_val {
     MDBX_val {
-        iov_len: bytes.len(),
         iov_base: bytes.as_ptr() as *mut c_void,
+        iov_len: bytes.len(),
     }
 }
 

@@ -4,6 +4,14 @@ use std::fs::{self, File};
 use std::path::PathBuf;
 
 fn main() {
+    // Allow using a locally built library (for offline builds or custom builds)
+    if let Ok(lib_dir) = env::var("MDBX_RS_LIB_DIR") {
+        println!("cargo:rustc-link-search=native={}", lib_dir);
+        println!("cargo:rustc-link-lib=static=mdbx_rs");
+        println!("cargo:rerun-if-env-changed=MDBX_RS_LIB_DIR");
+        return;
+    }
+    
     let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
     let target = env::var("TARGET").unwrap();
     
@@ -35,6 +43,7 @@ fn main() {
     if marker.exists() {
         println!("cargo:rustc-link-search=native={}", lib_dir.display());
         println!("cargo:rustc-link-lib=static=mdbx_rs");
+        println!("cargo:rerun-if-env-changed=MDBX_RS_LIB_DIR");
         return;
     }
     
@@ -64,6 +73,5 @@ fn main() {
     println!("cargo:rustc-link-search=native={}", lib_dir.display());
     println!("cargo:rustc-link-lib=static=mdbx_rs");
     
-    // Rerun if version changes
-    println!("cargo:rerun-if-env-changed=CARGO_PKG_VERSION");
+    println!("cargo:rerun-if-env-changed=MDBX_RS_LIB_DIR");
 }
