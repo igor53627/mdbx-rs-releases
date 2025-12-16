@@ -1,9 +1,19 @@
 # mdbx-rs
 
-Pure Rust implementation of [libmdbx](https://gitflic.ru/project/erthink/libmdbx) - an extremely fast embedded key-value database.
+FFI bindings to a Rust implementation of [libmdbx](https://gitflic.ru/project/erthink/libmdbx) - an extremely fast embedded key-value database.
 
 [![Crates.io](https://img.shields.io/crates/v/mdbx-rs.svg)](https://crates.io/crates/mdbx-rs)
 [![Documentation](https://docs.rs/mdbx-rs/badge.svg)](https://docs.rs/mdbx-rs)
+
+## How This Crate Works
+
+This crate provides low-level C-style FFI bindings. At build time, it downloads prebuilt static libraries from GitHub Releases:
+
+- **Repository:** [igor53627/mdbx-rs-releases](https://github.com/igor53627/mdbx-rs-releases)
+- **Artifacts:** `mdbx-rs-{platform}.tar.gz`
+- **License:** Apache-2.0
+
+The database engine is implemented in Rust in a separate repository.
 
 ## Performance
 
@@ -65,15 +75,32 @@ fn main() {
 
 ## Supported Platforms
 
-| Platform | File |
-|----------|------|
+| Platform | Artifact |
+|----------|----------|
 | Linux x86_64 | `mdbx-rs-linux-x86_64.tar.gz` |
+| Linux aarch64 | `mdbx-rs-linux-aarch64.tar.gz` |
+| macOS x86_64 | `mdbx-rs-macos-x86_64.tar.gz` |
 | macOS Apple Silicon | `mdbx-rs-macos-aarch64.tar.gz` |
+
+## Offline Builds
+
+By default, `mdbx-rs` downloads prebuilt binaries during `cargo build`.
+
+To use a locally built library (for offline/air-gapped builds):
+
+```bash
+export MDBX_RS_LIB_DIR=/path/to/dir/containing/libmdbx_rs.a
+cargo build
+```
 
 ## Compatibility
 
-- Binary compatible with C libmdbx databases
+- Binary compatible with C libmdbx databases (format version 0.13.x)
 - No migration required for existing databases
+
+## API Level
+
+This crate exposes the **low-level C-style FFI API**. All database operations require `unsafe` blocks. A higher-level safe Rust wrapper may be provided in a future release.
 
 ## License
 
