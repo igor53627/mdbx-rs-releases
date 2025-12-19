@@ -102,15 +102,47 @@ pub struct MDBX_stat {
 #[link(name = "mdbx_rs", kind = "static")]
 extern "C" {
     // Environment functions
+    
+    /// Create an MDBX environment handle.
     pub fn mdbx_env_create(env: *mut *mut MDBX_env) -> c_int;
+    
+    /// Open an environment handle.
     pub fn mdbx_env_open(
         env: *mut MDBX_env,
         pathname: *const c_char,
         flags: MDBX_env_flags_t,
         mode: mdbx_mode_t,
     ) -> c_int;
+    
+    /// Close the environment and release resources.
     pub fn mdbx_env_close(env: *mut MDBX_env) -> c_int;
+    
+    /// Close the environment with optional sync control.
     pub fn mdbx_env_close_ex(env: *mut MDBX_env, dont_sync: bool) -> c_int;
+    
+    /// Set the database size limits and geometry.
+    ///
+    /// Must be called **before** `mdbx_env_open()`. Use -1 for any parameter
+    /// to keep the current/default value.
+    ///
+    /// # Parameters
+    /// - `size_lower`: Minimum database size in bytes (-1 for auto)
+    /// - `size_now`: Current/initial size in bytes (-1 for auto)
+    /// - `size_upper`: Maximum database size in bytes (-1 for default ~1GB)
+    /// - `growth_step`: Size increment when growing (-1 for auto, typically 16MB)
+    /// - `shrink_threshold`: Threshold for shrinking (-1 for auto)
+    /// - `pagesize`: Page size in bytes (256..65536, power of 2, typically 4096)
+    ///
+    /// # Returns
+    /// - 0 on success
+    /// - `MDBX_EINVAL` if parameters are invalid
+    ///
+    /// # Example
+    /// ```ignore
+    /// // Allow database to grow up to 100GB
+    /// let max_size: isize = 100 * 1024 * 1024 * 1024;
+    /// mdbx_env_set_geometry(env, -1, -1, max_size, -1, -1, 4096);
+    /// ```
     pub fn mdbx_env_set_geometry(
         env: *mut MDBX_env,
         size_lower: isize,

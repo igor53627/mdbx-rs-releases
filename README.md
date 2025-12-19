@@ -73,6 +73,44 @@ fn main() {
 }
 ```
 
+## Configuring Database Size
+
+By default, the database will grow automatically but may hit size limits. Use `mdbx_env_set_geometry` **before** `mdbx_env_open` to configure:
+
+```rust,ignore
+use mdbx_rs::*;
+
+unsafe {
+    let mut env = std::ptr::null_mut();
+    mdbx_env_create(&mut env);
+    
+    // Set geometry: (env, size_lower, size_now, size_upper, growth_step, shrink_threshold, pagesize)
+    // Use -1 for any parameter to keep default/auto value
+    
+    // Example: Allow database to grow up to 100GB
+    let size_100gb: isize = 100 * 1024 * 1024 * 1024;
+    mdbx_env_set_geometry(
+        env,
+        -1,           // size_lower: auto
+        -1,           // size_now: auto  
+        size_100gb,   // size_upper: 100GB max
+        -1,           // growth_step: auto (typically 16MB)
+        -1,           // shrink_threshold: auto
+        4096,         // pagesize: 4KB (standard)
+    );
+    
+    // Now open the database
+    let path = std::ffi::CString::new("./large_db").unwrap();
+    mdbx_env_open(env, path.as_ptr(), MDBX_NOSUBDIR, 0o644);
+    
+    // ... use database ...
+    
+    mdbx_env_close(env);
+}
+```
+
+If you encounter `MDBX_MAP_FULL` (-30797), increase `size_upper` before opening.
+
 ## Supported Platforms
 
 | Platform | Artifact |
