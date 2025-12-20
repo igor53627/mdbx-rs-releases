@@ -111,6 +111,23 @@ unsafe {
 
 If you encounter `MDBX_MAP_FULL` (-30797), increase `size_upper` before opening.
 
+## Troubleshooting
+
+### SIGBUS on Large Databases (1TB+)
+
+**Fixed in v0.2.21**. Earlier versions could crash with SIGBUS when writing to large databases because tree splits can allocate 1000+ pages at once. If the file wasn't pre-extended, writes to mmap'd regions beyond EOF caused SIGBUS.
+
+**Solution**: Upgrade to v0.2.21 or later.
+
+**What changed:**
+1. Pager now uses `geometry.size_upper` for the mmap virtual address range
+2. File is extended at `env_open` if `metadata.size_now > file_size`
+3. Before allocating pages, file is pre-extended by `growth_step` (default 16MB)
+
+### MDBX_CORRUPTED (-30796)
+
+If your database was corrupted by previous SIGBUS crashes, you'll need to restore from backup or resync from scratch.
+
 ## Supported Platforms
 
 | Platform | Artifact |
