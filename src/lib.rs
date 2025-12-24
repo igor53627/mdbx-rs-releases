@@ -1,12 +1,12 @@
-//! mdbx-rs - FFI bindings to a Rust implementation of libmdbx
+//! mdbx-rs - A pure Rust reimplementation of libmdbx
 //!
-//! An extremely fast embedded key-value database.
+//! An extremely fast embedded key-value database with memory safety guarantees.
 //!
-//! ## Performance
+//! ## Benefits
 //!
-//! - **17% faster** on PUT than C libmdbx
-//! - **19% faster** on GET than C libmdbx
-//! - **37% faster** on CURSOR than C libmdbx
+//! - **Memory safe** - No undefined behavior from C FFI
+//! - **Binary compatible** - Reads/writes same database files as C libmdbx
+//! - **Native Rust** - No external C dependencies
 //!
 //! ## Example
 //!

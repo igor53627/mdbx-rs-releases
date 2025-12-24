@@ -27,13 +27,15 @@ In the meantime, this crate provides prebuilt binaries that are binary-compatibl
 
 ## Performance
 
-| Operation | Rust mdbx-rs | C libmdbx |
-|-----------|-------------|-----------|
-| **PUT** | **143ms** | 167ms |
-| **GET** | **74ms** | 88ms |
-| **CURSOR** | **12ms** | 16.5ms |
+Benchmarks on x64 Linux with 1 million entries (20-byte keys, 32-byte values):
 
-Benchmarked with 1 million entries (20-byte keys, 32-byte values).
+| Operation | Rust mdbx-rs (PGO) | C libmdbx |
+|-----------|-------------------|-----------|
+| PUT (1M entries) | **310ms** | 500ms |
+| GET (10K lookups) | 65ms | **11ms** |
+| CURSOR (1M iteration) | 37ms | **27ms** |
+
+Rust with PGO is ~38% faster on writes. C libmdbx is faster on reads. The primary benefits of this Rust implementation are memory safety and native Rust ecosystem integration.
 
 ## Installation
 
