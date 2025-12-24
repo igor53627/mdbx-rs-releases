@@ -252,6 +252,8 @@ extern "C" {
     ) -> c_int;
     pub fn mdbx_env_set_maxdbs(env: *mut MDBX_env, dbs: MDBX_dbi) -> c_int;
     pub fn mdbx_env_set_maxreaders(env: *mut MDBX_env, readers: c_uint) -> c_int;
+    pub fn mdbx_env_set_option(env: *mut MDBX_env, option: c_uint, value: u64) -> c_int;
+    pub fn mdbx_env_get_option(env: *const MDBX_env, option: c_uint, value: *mut u64) -> c_int;
     pub fn mdbx_env_get_maxreaders(env: *const MDBX_env, readers: *mut c_uint) -> c_int;
     pub fn mdbx_env_get_maxdbs(env: *const MDBX_env, dbs: *mut MDBX_dbi) -> c_int;
     pub fn mdbx_env_sync_ex(env: *mut MDBX_env, force: bool, nonblock: bool) -> c_int;
@@ -285,6 +287,8 @@ extern "C" {
     pub fn mdbx_txn_env(txn: *const MDBX_txn) -> *mut MDBX_env;
     pub fn mdbx_txn_flags(txn: *const MDBX_txn) -> c_int;
     pub fn mdbx_txn_id(txn: *const MDBX_txn) -> u64;
+    pub fn mdbx_txn_reset(txn: *mut MDBX_txn) -> c_int;
+    pub fn mdbx_txn_renew(txn: *mut MDBX_txn) -> c_int;
 
     // Database functions
     pub fn mdbx_dbi_open(
@@ -299,6 +303,12 @@ extern "C" {
         dbi: MDBX_dbi,
         stat: *mut MDBX_stat,
         bytes: usize,
+    ) -> c_int;
+    pub fn mdbx_dbi_flags_ex(
+        txn: *const MDBX_txn,
+        dbi: MDBX_dbi,
+        flags: *mut c_uint,
+        state: *mut c_uint,
     ) -> c_int;
     pub fn mdbx_drop(txn: *mut MDBX_txn, dbi: MDBX_dbi, del: bool) -> c_int;
 
@@ -330,6 +340,10 @@ extern "C" {
         cursor: *mut *mut MDBX_cursor,
     ) -> c_int;
     pub fn mdbx_cursor_close(cursor: *mut MDBX_cursor);
+    pub fn mdbx_cursor_create(context: *mut c_void) -> *mut MDBX_cursor;
+    pub fn mdbx_cursor_renew(txn: *mut MDBX_txn, cursor: *mut MDBX_cursor) -> c_int;
+    pub fn mdbx_cursor_txn(cursor: *const MDBX_cursor) -> *mut MDBX_txn;
+    pub fn mdbx_cursor_dbi(cursor: *const MDBX_cursor) -> MDBX_dbi;
     pub fn mdbx_cursor_get(
         cursor: *mut MDBX_cursor,
         key: *mut MDBX_val,
