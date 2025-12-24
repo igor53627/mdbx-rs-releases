@@ -102,10 +102,10 @@ pub struct MDBX_stat {
 #[link(name = "mdbx_rs", kind = "static")]
 extern "C" {
     // Environment functions
-    
+
     /// Create an MDBX environment handle.
     pub fn mdbx_env_create(env: *mut *mut MDBX_env) -> c_int;
-    
+
     /// Open an environment handle.
     pub fn mdbx_env_open(
         env: *mut MDBX_env,
@@ -113,13 +113,13 @@ extern "C" {
         flags: MDBX_env_flags_t,
         mode: mdbx_mode_t,
     ) -> c_int;
-    
+
     /// Close the environment and release resources.
     pub fn mdbx_env_close(env: *mut MDBX_env) -> c_int;
-    
+
     /// Close the environment with optional sync control.
     pub fn mdbx_env_close_ex(env: *mut MDBX_env, dont_sync: bool) -> c_int;
-    
+
     /// Set the database size limits and geometry.
     ///
     /// Must be called **before** `mdbx_env_open()`. Use -1 for any parameter
@@ -259,7 +259,14 @@ pub fn bytes_to_val(bytes: &[u8]) -> MDBX_val {
     }
 }
 
-/// Convert MDBX_val to a Rust byte slice (unsafe - caller must ensure validity)
+/// Convert MDBX_val to a Rust byte slice.
+///
+/// # Safety
+///
+/// The caller must ensure that:
+/// - `val.iov_base` points to valid memory if non-null
+/// - The memory is valid for `val.iov_len` bytes
+/// - The memory is not mutated during the lifetime `'a`
 #[inline]
 pub unsafe fn val_to_bytes<'a>(val: &MDBX_val) -> &'a [u8] {
     if val.iov_base.is_null() || val.iov_len == 0 {

@@ -1,3 +1,5 @@
+#![allow(non_upper_case_globals)]
+
 use libc::c_int;
 
 pub const MDBX_SUCCESS: c_int = 0;
