@@ -99,6 +99,104 @@ pub struct MDBX_stat {
     pub ms_mod_txnid: u64,
 }
 
+/// Environment geometry info
+#[repr(C)]
+#[derive(Debug, Copy, Clone, Default)]
+pub struct MDBX_envinfo_geo {
+    pub lower: u64,
+    pub upper: u64,
+    pub current: u64,
+    pub shrink: u64,
+    pub grow: u64,
+}
+
+/// Boot ID inner struct
+#[repr(C)]
+#[derive(Debug, Copy, Clone, Default)]
+pub struct MDBX_envinfo_bootid_inner {
+    pub x: u64,
+    pub y: u64,
+}
+
+/// Boot ID struct
+#[repr(C)]
+#[derive(Debug, Copy, Clone, Default)]
+pub struct MDBX_envinfo_bootid {
+    pub current: MDBX_envinfo_bootid_inner,
+    pub meta: [MDBX_envinfo_bootid_inner; 3],
+}
+
+/// Page operation statistics
+#[repr(C)]
+#[derive(Debug, Copy, Clone, Default)]
+pub struct MDBX_envinfo_pgop_stat {
+    pub newly: u64,
+    pub cow: u64,
+    pub clone: u64,
+    pub split: u64,
+    pub merge: u64,
+    pub spill: u64,
+    pub unspill: u64,
+    pub wops: u64,
+    pub prefault: u64,
+    pub mincore: u64,
+    pub msync: u64,
+    pub fsync: u64,
+}
+
+/// Database ID struct
+#[repr(C)]
+#[derive(Debug, Copy, Clone, Default)]
+pub struct MDBX_envinfo_dxbid {
+    pub x: u64,
+    pub y: u64,
+}
+
+/// Environment information
+#[repr(C)]
+#[derive(Debug, Copy, Clone, Default)]
+pub struct MDBX_envinfo {
+    pub mi_geo: MDBX_envinfo_geo,
+    pub mi_mapsize: u64,
+    pub mi_dxb_fsize: u64,
+    pub mi_dxb_fallocated: u64,
+    pub mi_last_pgno: u64,
+    pub mi_recent_txnid: u64,
+    pub mi_latter_reader_txnid: u64,
+    pub mi_self_latter_reader_txnid: u64,
+    pub mi_meta_txnid: [u64; 3],
+    pub mi_meta_sign: [u64; 3],
+    pub mi_maxreaders: u32,
+    pub mi_numreaders: u32,
+    pub mi_dxb_pagesize: u32,
+    pub mi_sys_pagesize: u32,
+    pub mi_sys_upcblk: u32,
+    pub mi_sys_ioblk: u32,
+    pub mi_bootid: MDBX_envinfo_bootid,
+    pub mi_unsync_volume: u64,
+    pub mi_autosync_threshold: u64,
+    pub mi_since_sync_seconds16dot16: u32,
+    pub mi_autosync_period_seconds16dot16: u32,
+    pub mi_since_reader_check_seconds16dot16: u32,
+    pub mi_mode: u32,
+    pub mi_pgop_stat: MDBX_envinfo_pgop_stat,
+    pub mi_dxbid: MDBX_envinfo_dxbid,
+}
+
+/// Commit latency information
+#[repr(C)]
+#[derive(Debug, Copy, Clone, Default)]
+pub struct MDBX_commit_latency {
+    pub preparation: u32,
+    pub gc_wallclock: u32,
+    pub audit: u32,
+    pub write: u32,
+    pub sync: u32,
+    pub ending: u32,
+    pub whole: u32,
+    pub gc_cputime: u32,
+}
+
 #[link(name = "mdbx_rs", kind = "static")]
 extern "C" {
     // Environment functions
@@ -167,6 +265,12 @@ extern "C" {
         stat: *mut MDBX_stat,
         bytes: usize,
     ) -> c_int;
+    pub fn mdbx_env_info_ex(
+        env: *const MDBX_env,
+        txn: *const MDBX_txn,
+        info: *mut MDBX_envinfo,
+        bytes: usize,
+    ) -> c_int;
 
     // Transaction functions
     pub fn mdbx_txn_begin(
@@ -176,6 +280,7 @@ extern "C" {
         txn: *mut *mut MDBX_txn,
     ) -> c_int;
     pub fn mdbx_txn_commit(txn: *mut MDBX_txn) -> c_int;
+    pub fn mdbx_txn_commit_ex(txn: *mut MDBX_txn, latency: *mut MDBX_commit_latency) -> c_int;
     pub fn mdbx_txn_abort(txn: *mut MDBX_txn) -> c_int;
     pub fn mdbx_txn_env(txn: *const MDBX_txn) -> *mut MDBX_env;
     pub fn mdbx_txn_flags(txn: *const MDBX_txn) -> c_int;
