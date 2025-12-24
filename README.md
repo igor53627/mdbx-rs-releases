@@ -1,9 +1,15 @@
 # mdbx-rs
 
-FFI bindings to a Rust implementation of [libmdbx](https://gitflic.ru/project/erthink/libmdbx) - an extremely fast embedded key-value database.
+A pure Rust reimplementation of [libmdbx](https://gitflic.ru/project/erthink/libmdbx) - an extremely fast embedded key-value database.
 
 [![Crates.io](https://img.shields.io/crates/v/mdbx-rs.svg)](https://crates.io/crates/mdbx-rs)
 [![Documentation](https://docs.rs/mdbx-rs/badge.svg)](https://docs.rs/mdbx-rs)
+
+## Acknowledgments
+
+This project is a Rust reimplementation based on [libmdbx](https://gitflic.ru/project/erthink/libmdbx) by **Leonid Yuriev (Леонид Юрьев)**. We extend our sincere thanks for creating such an excellent database engine that served as the foundation for this work.
+
+The original libmdbx is a remarkably well-engineered embedded database with exceptional performance characteristics. This Rust implementation aims to provide the same capabilities with memory safety guarantees.
 
 ## How This Crate Works
 
@@ -13,7 +19,11 @@ This crate provides low-level C-style FFI bindings. At build time, it downloads 
 - **Artifacts:** `mdbx-rs-{platform}.tar.gz`
 - **License:** Apache-2.0
 
-The database engine is implemented in Rust in a separate repository.
+## Source Code Availability
+
+The Rust source code is currently in a private repository while we work toward production quality. Once the implementation is stable and well-tested, we plan to open-source the full codebase to enable community contributions.
+
+In the meantime, this crate provides prebuilt binaries that are binary-compatible with C libmdbx databases.
 
 ## Performance
 
