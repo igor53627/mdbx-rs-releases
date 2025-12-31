@@ -1,6 +1,6 @@
 [package]
 name = "mdbx-rs"
-version = "0.2.36"
+version = "0.2.38"
 edition = "2021"
 license = "Apache-2.0"
 description = "FFI bindings to mdbx-rs, a fast embedded key-value database (downloads prebuilt binaries)"
@@ -17,7 +17,7 @@ name = "mdbx_rs"
 libc = "0.2"
 
 [build-dependencies]
-reqwest = { version = "0.11", features = ["blocking"] }
+reqwest = { version = "0.2.38"] }
 flate2 = "1.0"
 tar = "0.4"
 
