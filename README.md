@@ -179,3 +179,39 @@ This crate exposes the **low-level C-style FFI API**. All database operations re
 ## License
 
 Apache 2.0
+
+## Prebuilt Artifacts
+
+Release archives contain only C-compatible libraries:
+
+- `libmdbx_rs.a` - Static library (staticlib)
+- `libmdbx_rs.so` / `libmdbx_rs.dylib` - Dynamic library (cdylib)
+
+**Note:** `.rlib` files are **not** included. The `.rlib` format is Rust-internal and not stable across compiler versions. If you need to use mdbx-rs from Rust code with full optimization (inlining, LTO), depend on the source crate and let Cargo build from source.
+
+### Supported Platforms
+
+| Platform | Artifact |
+|----------|----------|
+| Linux x86_64 | `mdbx-rs-linux-x86_64.tar.gz` |
+| macOS ARM64 | `mdbx-rs-macos-aarch64.tar.gz` |
+
+### Usage from C/C++
+
+```c
+// Link with: -lmdbx_rs -lpthread -ldl -lm
+#include <stdint.h>
+
+extern int mdbx_env_create(void **env);
+extern int mdbx_env_open(void *env, const char *path, unsigned flags, unsigned mode);
+// ... see mdbx.h for full API
+```
+
+### Usage from Rust (via this crate)
+
+```toml
+[dependencies]
+mdbx-rs = "0.2"
+```
+
+The build script automatically downloads and links the appropriate prebuilt library.
