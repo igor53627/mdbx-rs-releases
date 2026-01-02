@@ -1,6 +1,6 @@
 #![allow(non_upper_case_globals)]
 
-use libc::{c_int, c_uint};
+use libc::c_int;
 
 pub const MDBX_SUCCESS: c_int = 0;
 pub const MDBX_RESULT_FALSE: c_int = MDBX_SUCCESS;

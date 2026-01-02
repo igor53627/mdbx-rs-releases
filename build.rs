@@ -1,6 +1,5 @@
 use std::env;
-use std::fs::{self, File};
-use std::io::Write;
+use std::fs;
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -30,6 +29,7 @@ fn main() {
     }
 
     // Download and build from source
+    // Source tarball is uploaded to the public releases repo alongside binaries
     let source_url = format!(
         "https://github.com/igor53627/mdbx-rs-releases/releases/download/v{}/mdbx-rs-source.tar.gz",
         version
