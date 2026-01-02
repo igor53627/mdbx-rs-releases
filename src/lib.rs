@@ -252,8 +252,8 @@ extern "C" {
     ) -> c_int;
     pub fn mdbx_env_set_maxdbs(env: *mut MDBX_env, dbs: MDBX_dbi) -> c_int;
     pub fn mdbx_env_set_maxreaders(env: *mut MDBX_env, readers: c_uint) -> c_int;
-    pub fn mdbx_env_set_option(env: *mut MDBX_env, option: c_uint, value: u64) -> c_int;
-    pub fn mdbx_env_get_option(env: *const MDBX_env, option: c_uint, value: *mut u64) -> c_int;
+    pub fn mdbx_env_set_option(env: *mut MDBX_env, option: c_int, value: u64) -> c_int;
+    pub fn mdbx_env_get_option(env: *const MDBX_env, option: c_int, value: *mut u64) -> c_int;
     pub fn mdbx_env_get_maxreaders(env: *const MDBX_env, readers: *mut c_uint) -> c_int;
     pub fn mdbx_env_get_maxdbs(env: *const MDBX_env, dbs: *mut MDBX_dbi) -> c_int;
     pub fn mdbx_env_sync_ex(env: *mut MDBX_env, force: bool, nonblock: bool) -> c_int;
