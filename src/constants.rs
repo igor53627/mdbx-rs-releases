@@ -251,27 +251,27 @@ pub const MDBX_WARMUP_LOCK: c_int = 4;
 pub const MDBX_WARMUP_TOUCHLIMIT: c_int = 8;
 pub const MDBX_WARMUP_RELEASE: c_int = 16;
 
-pub const MDBX_opt_max_db: c_uint = 0;
-pub const MDBX_opt_max_readers: c_uint = 1;
-pub const MDBX_opt_sync_bytes: c_uint = 2;
-pub const MDBX_opt_sync_period: c_uint = 3;
-pub const MDBX_opt_rp_augment_limit: c_uint = 4;
-pub const MDBX_opt_loose_limit: c_uint = 5;
-pub const MDBX_opt_dp_reserve_limit: c_uint = 6;
-pub const MDBX_opt_txn_dp_limit: c_uint = 7;
-pub const MDBX_opt_txn_dp_initial: c_uint = 8;
-pub const MDBX_opt_spill_max_denominator: c_uint = 9;
-pub const MDBX_opt_spill_min_denominator: c_uint = 10;
+pub const MDBX_opt_max_db: c_int = 0;
+pub const MDBX_opt_max_readers: c_int = 1;
+pub const MDBX_opt_sync_bytes: c_int = 2;
+pub const MDBX_opt_sync_period: c_int = 3;
+pub const MDBX_opt_rp_augment_limit: c_int = 4;
+pub const MDBX_opt_loose_limit: c_int = 5;
+pub const MDBX_opt_dp_reserve_limit: c_int = 6;
+pub const MDBX_opt_txn_dp_limit: c_int = 7;
+pub const MDBX_opt_txn_dp_initial: c_int = 8;
+pub const MDBX_opt_spill_max_denominator: c_int = 9;
+pub const MDBX_opt_spill_min_denominator: c_int = 10;
 pub const MDBX_opt_spill_parent4child_denominator: c_int = 11;
 pub const MDBX_opt_merge_threshold_16dot16_percent: c_int = 12;
-pub const MDBX_opt_writethrough_threshold: c_uint = 13;
-pub const MDBX_opt_prefault_write_enable: c_uint = 14;
-pub const MDBX_opt_gc_time_limit: c_uint = 15;
-pub const MDBX_opt_prefer_waf_insteadof_balance: c_uint = 16;
-pub const MDBX_opt_subpage_limit: c_uint = 17;
-pub const MDBX_opt_subpage_room_threshold: c_uint = 18;
-pub const MDBX_opt_subpage_reserve_prereq: c_uint = 19;
-pub const MDBX_opt_subpage_reserve_limit: c_uint = 20;
+pub const MDBX_opt_writethrough_threshold: c_int = 13;
+pub const MDBX_opt_prefault_write_enable: c_int = 14;
+pub const MDBX_opt_gc_time_limit: c_int = 15;
+pub const MDBX_opt_prefer_waf_insteadof_balance: c_int = 16;
+pub const MDBX_opt_subpage_limit: c_int = 17;
+pub const MDBX_opt_subpage_room_threshold: c_int = 18;
+pub const MDBX_opt_subpage_reserve_prereq: c_int = 19;
+pub const MDBX_opt_subpage_reserve_limit: c_int = 20;
 
 #[cfg(test)]
 mod tests {
