@@ -1,6 +1,6 @@
 [package]
 name = "mdbx-rs"
-version = "0.2.62"
+version = "0.2.63"
 edition = "2021"
 license = "Apache-2.0"
 description = "FFI bindings to mdbx-rs, a fast embedded key-value database (downloads prebuilt binaries)"
