@@ -73,8 +73,8 @@ pub struct MDBX_cursor {
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct MDBX_val {
-    pub iov_len: usize,
     pub iov_base: *mut c_void,
+    pub iov_len: usize,
 }
 
 impl Default for MDBX_val {
